@@ -1,0 +1,33 @@
+{{ if .vlan > 0 }}
+/sbin/uci add network device
+/sbin/uci set network.@device[-1].type='8021q'
+/sbin/uci set network.@device[-1].ifname='br-int' # Replace with main bridge name
+/sbin/uci set network.@device[-1].vid='{{- .vlan -}}'         # Replace with VLAN id
+/sbin/uci set network.@device[-1].name='br-lan.{{- .vlan -}}' # Replace with ${vlan_dev} = ${main_bridge}.${vlan_id}
+/sbin/uci add network device
+/sbin/uci set network.@device[-1].type='bridge'
+/sbin/uci set network.@device[-1].name='br-tel'   # Replace with ${vlan_bridge}
+/sbin/uci add_list network.@device[-1].ports='br-int.2' # Replace with ${vlan_dev}
+/sbin/uci set network.@device[-1].bridge_empty='1'      # Optional, should bring bridge even without this as ${vlan_dev} should get up
+
+/sbin/uci set network.tel=interface
+/sbin/uci set network.tel.proto='none'            # Don't get an ip configuration, use this one as a switch only
+/sbin/uci set network.tel.device='br-tel'         # Replace with ${vlan_bridge}
+/sbin/uci set network.tel.delegate='0'            # Disable IPv6 prefix delegation for this interface
+{{ end }}
+
+/sbin/uci set wireless.{{- .ssid -}}{{- .vlan -}}_{{- $band -}}={{- wifi-iface -}}              # Here and below 'wifinet2' likely can be replaced with whatever one want
+/sbin/uci set wireless.wifinet2.device='radio0'         # Corresponds to Wifi physical (hw) adapter
+/sbin/uci set wireless.wifinet2.mode='ap'
+/sbin/uci set wireless.wifinet2.ssid='shrtck-tel'       # Replace with ${SSID_name}
+/sbin/uci set wireless.wifinet2.encryption='psk2+ccmp'
+/sbin/uci set wireless.wifinet2.key='<bubvjntr%*%'
+/sbin/uci set wireless.wifinet2.network='tel'
+/sbin/uci set wireless.radio0.country='UA'
+{{/* Enable roaming */}}
+/sbin/uci set wireless.wifinet2.ieee80211r='1'
+/sbin/uci set wireless.wifinet2.nasid='DA84667146C0'
+/sbin/uci set wireless.wifinet2.mobility_domain='4f57'
+/sbin/uci set wireless.wifinet2.ft_over_ds='0'
+/sbin/uci set wireless.wifinet2.ft_psk_generate_local='0'
+{{/* Add R0KH and R1KH aka neighbours */}}

@@ -1,0 +1,26 @@
+======== Create VLAN device, bridge for SSID ontop of it and interface to put SSID to ontop of that bridge
+uci add network device
+uci set network.@device[-1].type='8021q'
+uci set network.@device[-1].ifname='br-int' # Replace with main bridge name
+uci set network.@device[-1].vid='2'         # Replace with VLAN id
+uci set network.@device[-1].name='br-int.2' # Replace with ${vlan_dev} = ${main_bridge}.${vlan_id}
+uci add network device
+uci set network.@device[-1].type='bridge'
+uci set network.@device[-1].name='br-tel'   # Replace with ${vlan_bridge}
+uci add_list network.@device[-1].ports='br-int.2' # Replace with ${vlan_dev}
+uci set network.@device[-1].bridge_empty='1'      # Optional, should bring bridge even without this as ${vlan_dev} should get up
+
+uci set network.tel=interface
+uci set network.tel.proto='none'            # Don't get an ip configuration, use this one as a switch only
+uci set network.tel.device='br-tel'         # Replace with ${vlan_bridge}
+uci set network.tel.delegate='0'            # Disable IPv6 prefix delegation for this interface
+
+========= Create SSID itself, bound to interface on top of corresponding VLAN
+uci set wireless.wifinet2=wifi-iface              # Here and below 'wifinet2' likely can be replaced with whatever one want
+uci set wireless.wifinet2.device='radio0'         # Corresponds to Wifi physical (hw) adapter
+uci set wireless.wifinet2.mode='ap'
+uci set wireless.wifinet2.ssid='shrtck-tel'       # Replace with ${SSID_name}
+uci set wireless.wifinet2.encryption='psk2+ccmp'
+uci set wireless.wifinet2.key='<bubvjntr%*%'
+uci set wireless.wifinet2.network='tel'
+uci set wireless.radio0.country='UA'

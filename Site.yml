@@ -1,0 +1,61 @@
+sshKey:
+sshPublicKey: cbckdjbcdkcbdkcb
+password: cdkbdkjvbdkcb
+ssidSuffix2:
+ssidSuffix5:
+accessPoints:
+  - name: ap01
+    model: ap3825i
+    MAC: DE:AD:BE:EF:00:11
+    ip: 192.168.22.1
+    wlan2:
+      channel: 1
+    wlan5:
+      channel: 36
+  - name: ap02
+    model: ap3715i
+    MAC: EB:65:37:92:D7:4E
+    ip: 192.168.22.2
+ssid:
+  - name: shrtck-int
+    auth: wpa2-psk
+    password: Rfkfrjkxtu[*]
+  - name: shrtck-tel
+    vlan: 2
+    auth: wpa2-psk
+    password: Rfkfrjkxtu[*]
+  - name: shrtck-mob
+    vlan: 5
+    auth: wpa2-psk
+    password: Rfkfrjkxtu[*]
+  - name: shrtck-adm
+    vlan: 7
+    auth: wpa2-psk
+    password: Rfkfrjkxtu[*]
+devices:
+  - name: ap3825i
+    model: Extreme Networks WS-AP3825i
+    wlan2:
+      interface: radio1
+      device: wlan1
+      driver: ath9k
+    wlan5:
+      interface: radio0
+      device: wlan0
+      driver: ath10k-ct
+    bridgedWiredDevice: eth0
+    architecture: mpc85xx
+    cpu: NXP P1020
+  - name: ap3715i
+    model: Enterasys WS-AP3715i
+    wlan2:
+      interface: radio0
+      device: wlan0
+      driver: ath9k
+    wlan5:
+      interface: radio1
+      device: wlan1
+      driver: ath9k
+    bridgedWiredDevice: eth1
+    architecture: mpc85xx
+    cpu: NXP P1010
