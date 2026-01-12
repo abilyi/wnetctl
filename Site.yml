@@ -19,19 +19,19 @@ accessPoints:
 ssid:
   - name: shrtck-int
     auth: wpa2-psk
-    password: Rfkfrjkxtu[*]
+    password: elfkvjbevkmnv==
   - name: shrtck-tel
     vlan: 2
     auth: wpa2-psk
-    password: Rfkfrjkxtu[*]
+    password: fvbnb;dflmv
   - name: shrtck-mob
     vlan: 5
     auth: wpa2-psk
-    password: Rfkfrjkxtu[*]
+    password: safvkj,dpdmvc
   - name: shrtck-adm
     vlan: 7
     auth: wpa2-psk
-    password: Rfkfrjkxtu[*]
+    password: dfvdf[ltgkln]
 devices:
   - name: ap3825i
     model: Extreme Networks WS-AP3825i
